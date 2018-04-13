@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+</head>
+<body>
+
+
+        <h1>User page (Spring Security protected)</h1>
+
+ <p>	<a href="#" th:href="@{'/user/aboutme/' + ${user.id}}">about me</a></p>
+	<p>	<a href="#" th:href="@{'/user/adddetails/' + ${user.id}}">add details</a> </p>
+	
+	
+        <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form>
+        
+
+
+
+
+
+</body>
+</html>

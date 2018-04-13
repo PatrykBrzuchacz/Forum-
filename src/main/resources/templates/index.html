@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>Registration Success</title>
+</head>
+<body>
+	<h1>Welcome! </h1>
+	<p> <a href="#" th:href="@{/register}">RegisterPage</a> </p>
+	<p> <a href="#" th:href="@{/admin}">Admin page</a> </p>
+	<p> <a href="#" th:href="@{/user}">User page</a> </p>
+	<p> <a href="#" th:href="@{/about}">About</a> </p>
+
+    <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form>
+</body>
+</html>
