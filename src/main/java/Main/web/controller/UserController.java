@@ -40,27 +40,7 @@ public class UserController {
 		this.userService = userService;
 	}
 
-	@GetMapping("/register")
-	public String register(Model model) {
-		model.addAttribute("user", new User());
-		return "registerForm";
-	}
-	
-	@PostMapping("/register")
-	public String addUser(@ModelAttribute("user") User user,
-			BindingResult result, RedirectAttributes redAtt) {
-	validator.validate(user, result);
-	if(result.hasErrors()) {
-		log.info("Formularz rejestracyjny - NIE przeszedł walidacji");
-			return "registerForm";
-			}
-		else {
-			
-			log.info("Formularz rejestracyjny - przeszedł walidacje");
-			log.info(user.toString());
-			userService.addWithDefaultRole(user);
-			return "registerSuccess";
-		}}
+	// ADMIN CRUD
 		 @RequestMapping("admin/delete/{id}")
 		    public String delete(@PathVariable Integer id){
 		        userService.deleteUser(id);
@@ -84,6 +64,9 @@ public class UserController {
 
         return "redirect:/admin/uzytkownicy";
 }
+	
+	
+	// USER CRUD
 @GetMapping("user/aboutme/{id}")
 public String about(@PathVariable Integer id, Model m) {
 	 m.addAttribute("user", userService.getUserById(id));
@@ -102,12 +85,7 @@ public String user(Model m) {
 	 m.addAttribute("user", userRepo.findByEmail(auth.getName()));
 	return "user";
 }
-/*@PostMapping("/login/{id}")
-public String loginn(@PathVariable Integer id, Model m) {
-	User user =  userService.getUserById(id);
-	m.addAttribute("user", user);
-	return "redirect:/user/" + user.getId();
-}*/
+
 @PostMapping("/adding")
 public String saveDetails(User user) {
 

@@ -44,14 +44,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http ) throws Exception {
 		http
 		.authorizeRequests()
-			.antMatchers("/","/register","/about").permitAll()
+			.antMatchers("/","/register","/about","/api/**", "/api/register").permitAll()
 			.antMatchers("/admin").hasAnyRole("ADMIN")
-			.antMatchers("/user").hasAnyRole("USER")
+			.antMatchers("/user", "/user/**").hasAnyRole("USER")
 			.anyRequest().authenticated()
 		.and()
 		.formLogin().loginPage("/login").permitAll().and().logout().logoutUrl("/logout")
 	                .logoutSuccessUrl("/")
 	                .permitAll()
 		.and()
-        .exceptionHandling().accessDeniedHandler(accessDenied);
+        .exceptionHandling().accessDeniedHandler(accessDenied).and().csrf().disable();
 }}
