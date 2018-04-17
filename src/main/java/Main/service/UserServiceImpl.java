@@ -24,10 +24,10 @@ public class UserServiceImpl implements UserService{
 
 
 
-	public void addWithDefaultRole(User user) {
+	public User addWithDefaultRole(User user) {
 		UserRole defaultRole = roleRepository.findByRole(DEFAULT_ROLE);
 		user.getRoles().add(defaultRole);
-		userRepository.save(user);
+		return userRepository.save(user);
 	}
 
 	@Override
@@ -56,6 +56,12 @@ public void addDetails(User user) {
 @Override
 public User getUserById(Integer id) {
 	return userRepository.getUserById(id);
+}
+
+public User update(User user) {
+User us= getUserById(user.getId());
+us.update(user.getFirstName(),user.getLastName(),user.getEmail(),user.getPassword());
+return us;
 }
 
 

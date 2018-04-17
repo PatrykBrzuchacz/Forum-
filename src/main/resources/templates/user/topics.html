@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Security Example </title>
+
+</head>
+<body>
+    <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form>
+   <a href="#" th:href="@{/register}">Register</a>
+  <div th:if="not ${topic.isEmpty()}">
+  <table border="1">
+  <tr>
+  <th>nazwa tematu</th></tr>
+  
+   	<tr th:each="topi : ${topic}">
+   	<td  th:href="${'/user/topics/' + topi.title}" th:text="${topi.title}"><span>edit</span>
+    </td>
+    </tr>
+    </table>
+    </div>
+     <div th:if="${topic.isEmpty()}">
+        <h1>There is no data yet :(</h1>
+    </div>
+    </body>
+    </html>
