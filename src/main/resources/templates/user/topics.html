@@ -15,7 +15,7 @@
   <th>nazwa tematu</th></tr>
   
    	<tr th:each="topi : ${topic}">
-   	<td  th:href="${'/user/topics/' + topi.title}" th:text="${topi.title}"><span>edit</span>
+   	<td><a  th:href="${'/user/topics/' + topi.title}" th:text="${topi.title}"><span>edit</span></a>
     </td>
     </tr>
     </table>
@@ -23,5 +23,6 @@
      <div th:if="${topic.isEmpty()}">
         <h1>There is no data yet :(</h1>
     </div>
+     <a href="#" th:href="@{/user/topics/createtopic}">create Topic</a>
     </body>
     </html>

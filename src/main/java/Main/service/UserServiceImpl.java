@@ -22,8 +22,6 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserRoleRepository roleRepository;
 
-
-
 	public User addWithDefaultRole(User user) {
 		UserRole defaultRole = roleRepository.findByRole(DEFAULT_ROLE);
 		user.getRoles().add(defaultRole);
@@ -31,7 +29,6 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-
 	public ArrayList<User> findAll(){
 		return (ArrayList<User>) userRepository.findAll();
 
