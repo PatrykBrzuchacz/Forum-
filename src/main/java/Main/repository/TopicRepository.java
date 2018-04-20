@@ -7,4 +7,6 @@ import Main.model.Topic;
 
 public interface TopicRepository extends JpaRepository<Topic, Integer> {
 
+	Topic findByTitle(String title);
+
 }

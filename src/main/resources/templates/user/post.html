@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Security Example </title>
+</head>
+<body>
+
+
+
+
+<table border="1">
+<tr th:each="post : ${postList}" th:object="${post}">
+      <td th:text="${post.author.email}">John</td>
+   <td th:text="${post.content}">opis</td>
+   
+</tr>
+</table>
+<form action="#" th:action="@{'/user/topics/' + ${topictitle} }" method="post" th:object="${postAdd}">
+	<textarea placeholder="OdpowiedŸ" maxlength="2048" rows="5" th:field="*{content}"></textarea>
+		<input type="submit" value="Dodaj" />
+	</form>
+
+</body>
+</html>
