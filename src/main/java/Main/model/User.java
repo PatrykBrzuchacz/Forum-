@@ -24,7 +24,6 @@ import org.springframework.context.annotation.Scope;
 
 @SuppressWarnings("deprecation")
 @Entity
-@Scope("session")
 public class User {
 
 	@Id

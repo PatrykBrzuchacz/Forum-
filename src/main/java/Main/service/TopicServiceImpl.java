@@ -13,12 +13,10 @@ import Main.repository.UserRoleRepository;
 
 @Service
 public class TopicServiceImpl implements TopicService{
-	@Autowired
-	private UserRepository userRepository;
+	
 	@Autowired
 	private TopicRepository topicRepository;
-	@Autowired
-	private PostRepository postRepository;
+
 	
 	@Override
 	public ArrayList<Topic> findAlltopics() {
