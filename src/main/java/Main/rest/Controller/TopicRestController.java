@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,7 +42,7 @@ public class TopicRestController {
 	public void setTopicService(TopicService topicService) {
 		this.topicService = topicService;
 	}
-	public UserService userService;
+	private UserService userService;
 		@Autowired
 	public void setUserService(UserService userService) {
 		this.userService = userService;
@@ -49,13 +50,16 @@ public class TopicRestController {
 		@GetMapping("/user/topics")
 		public ArrayList<Topic> topicRest() {
 			return (ArrayList<Topic>)topicService.findAlltopics();
-			
-		
 		}
 
+		@GetMapping("/user/topics/{topictitle}")
+		public Topic topic(@PathVariable("topictitle") String topictitle) {
+		return topicService.findByTitle(topictitle);
+		}
+		
 		
 		@PostMapping("/user/topics/{id}/createtopic")
-		public String createTopicPost(TopicForm topicF, @PathVariable Integer id)
+		public void createTopicPost(@RequestBody TopicForm topicF, @PathVariable Integer id)
 		{
 			Topic created = topicF.createTopica();
 			User topicAuthor=userService.getUserById(id);
@@ -66,25 +70,21 @@ public class TopicRestController {
 		
 		created.getPosts().add(firstPost);
 		topicService.saveTopic(created);
-		return "redirect:/user/topics/"+created.getTitle();
+		
 		}
 	
-		@GetMapping("/user/topics/{topictitle}")
-		public Topic topic(@PathVariable("topictitle") String topictitle) {
-		return topicService.findByTitle(topictitle);
-		}
-		
-		@PostMapping("/user/topics/{topictitle}")
-		public String addPost(@PathVariable("topictitle") String topictitle, @ModelAttribute("postAdd") PostForm form)
+		//OK
+		@PutMapping("/user/topics/{id}/{topictitle}")
+		public void addPost(@PathVariable Integer id, @PathVariable("topictitle") String topictitle, @RequestBody PostForm form)
 		{
 			Post post = form.createPost();
-			String author = SecurityContextHolder.getContext().getAuthentication().getName();
-			User postAuthor = userService.findByEmail(author);
+
+			User postAuthor = userService.getUserById(id);
 			post.setAuthor(postAuthor);
 			Topic topic = topicService.findByTitle(topictitle);
 			topic.getPosts().add(post);
 			topicService.updateTopic(topic);
-			return "redirect:/user/topics/" + topictitle;
+			
 			
 			
 			
