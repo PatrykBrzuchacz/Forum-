@@ -2,10 +2,12 @@ package Main.model.form;
 
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
 import Main.model.Topic;
 
 
-
+@Component
 public class TopicForm {
 	private String title;
 	private String firstPostContent;

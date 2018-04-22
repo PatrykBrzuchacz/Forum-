@@ -19,12 +19,31 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.context.annotation.Scope;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 
 
 @SuppressWarnings("deprecation")
 @Entity
 public class User {
+
+	public User(String firstName, String lastName, String email, String password) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+	}
+	public User(Integer id,String firstName, String lastName, String email, String password) {
+		super();
+		this.id=id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+	}
+	public User() {}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,13 +55,13 @@ public class User {
 	
 	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private Set<UserRole> roles = new HashSet<>();
-	
+	@JsonIgnore
 	@OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy="author", orphanRemoval = true)
 	private List<Post> posts = new ArrayList<>();
 	public List<Post> getPosts() {
 		return posts;
 	}
-	
+	@JsonIgnore
 	@OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy="author", orphanRemoval = true)
 	private List<Topic> topic = new ArrayList<>();
 	
