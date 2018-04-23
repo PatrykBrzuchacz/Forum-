@@ -48,8 +48,8 @@ public class TopicRestController {
 		this.userService = userService;
 	}
 		@GetMapping("/user/topics")
-		public ArrayList<Topic> topicRest() {
-			return (ArrayList<Topic>)topicService.findAlltopics();
+		public List<Topic> topicRest() {
+			return topicService.findAlltopics();
 		}
 
 		@GetMapping("/user/topics/{topictitle}")

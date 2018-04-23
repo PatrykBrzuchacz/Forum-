@@ -29,8 +29,8 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public ArrayList<User> findAll(){
-		return (ArrayList<User>) userRepository.findAll();
+	public List<User> findAll(){
+		return userRepository.findAll();
 
 }
 	public User findByEmail(String email) {
@@ -50,10 +50,11 @@ public void addDetails(User user) {
 	userRepository.save(user);
 }
 
-@Override
+
 public User getUserById(Integer id) {
 	return userRepository.getUserById(id);
 }
+
 
 public User update(User user) {
 User us= getUserById(user.getId());

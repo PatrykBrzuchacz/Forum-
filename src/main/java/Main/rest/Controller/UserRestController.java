@@ -1,6 +1,7 @@
 package Main.rest.Controller;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.validation.Valid;
@@ -54,7 +55,7 @@ public class UserRestController {
 		//ADMIN
 
 @GetMapping("/admin/list")
-public ArrayList<User> uzytkownicy() {
+public List<User> uzytkownicy() {
 
 	return userService.findAll();
 }
@@ -68,7 +69,7 @@ public void edit(@PathVariable Integer id,@RequestBody User user) {
 }
 
 @DeleteMapping("/admin/delete/{id}")
-public void deleete(@PathVariable Integer id) {
+public void delete(@PathVariable Integer id) {
 userService.deleteUser(id);
 }
 

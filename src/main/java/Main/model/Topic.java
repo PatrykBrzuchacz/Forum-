@@ -24,7 +24,7 @@ public class Topic {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String title;
-	
+	public Topic() {}
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Post> posts = new ArrayList<>();
 	@ManyToOne(optional = false)
@@ -40,6 +40,13 @@ public class Topic {
 
 	public String getTitle() {
 		return title;
+	}
+
+	public Topic(long id, String title, User author) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.author = author;
 	}
 
 	public void setTitle(String title) {
