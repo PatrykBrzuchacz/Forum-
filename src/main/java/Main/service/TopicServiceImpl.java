@@ -1,6 +1,7 @@
 package Main.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,8 @@ public class TopicServiceImpl implements TopicService{
 
 	
 	@Override
-	public ArrayList<Topic> findAlltopics() {
-	return (ArrayList<Topic>) topicRepository.findAll();
+	public List<Topic> findAlltopics() {
+	return  topicRepository.findAll();
 	}
 
 	@Override

@@ -11,14 +11,19 @@ public class UserRole {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private int id;
 	private String role;
 
 	
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public UserRole(int id, String role) {
+		super();
+		this.id = id;
+		this.role = role;
+	}
+	public void setId(int  id) {
 		this.id = id;
 	}
 	public String getRole() {

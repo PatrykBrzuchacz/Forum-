@@ -2,6 +2,7 @@
 package Main.service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +15,7 @@ import Main.model.User;
 
 public interface UserService {
 	User addWithDefaultRole(User user);
-	ArrayList<User> findAll();
+	List<User> findAll();
 	User findByEmail(String email);
 User saveUser(User user);
 User getUserById(Integer id);

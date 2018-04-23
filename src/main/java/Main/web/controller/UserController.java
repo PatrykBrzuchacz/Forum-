@@ -1,6 +1,7 @@
 package Main.web.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.validation.Valid;
@@ -49,7 +50,7 @@ public class UserController {
 	
 	@GetMapping("/admin/uzytkownicy")
 	public String uzytkownicy(Model m) {
-		ArrayList<User> uzytkownicy = userService.findAll();
+	List<User> uzytkownicy = userService.findAll();
 		m.addAttribute("uzytkownicy", uzytkownicy);
 		return "admin/uzytkownicy";
 	}

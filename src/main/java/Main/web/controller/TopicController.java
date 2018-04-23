@@ -38,8 +38,8 @@ public class TopicController {
 
 	@GetMapping("/user/topics")
 	private String topics(Model m) {
-		ArrayList<Topic> topic = topicService.findAlltopics();
-		m.addAttribute("topic", topic);
+	List<Topic> topic = topicService.findAlltopics();
+	m.addAttribute("topic", topic);
 		return "/user/topics";
 	}
 
