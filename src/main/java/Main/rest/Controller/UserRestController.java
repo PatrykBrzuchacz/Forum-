@@ -7,6 +7,9 @@ import java.util.logging.Logger;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import Main.Validation.RegisterFormValidator;
 import Main.model.User;
@@ -48,30 +52,61 @@ public class UserRestController {
 		
 		//REGISTER
 		@PostMapping("/register")
-		public void register(@RequestBody User user) {
+		public ResponseEntity<Void> register(@RequestBody User user,BindingResult result,UriComponentsBuilder ucBuilder ) {
+			
+			validator.validate(user, result);
+			if (result.hasErrors()){
+	            return new ResponseEntity<Void>(HttpStatus.CONFLICT);}
+			else {
 		userService.addWithDefaultRole(user);
-		}
+		 HttpHeaders headers = new HttpHeaders();
+	        headers.setLocation(ucBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri());
+	        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+			}}
 		
 		//ADMIN
 
 @GetMapping("/admin/list")
-public List<User> uzytkownicy() {
-
-	return userService.findAll();
+public ResponseEntity<List<User>> uzytkownicy() {
+	log.info("getting all users");
+	 List<User> users = userService.findAll();
+     if (users == null || users.isEmpty()){
+         log.info("users not found");
+         return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
+     }
+     return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 }
 
 
 
 @PutMapping("/admin/edit/{id}")
-public void edit(@PathVariable Integer id,@RequestBody User user) {
+public ResponseEntity<User> edit(@PathVariable Integer id,@RequestBody User user,BindingResult result) {
+	  validator.validate2(user, result);
+	User currentUser = userService.getUserById(id);
+	
+	  log.info("updating user: {}");
+		if (currentUser==null){
+	    return new ResponseEntity<User>(HttpStatus.NOT_FOUND);}
+		else if(result.hasErrors()) { 
+			return new ResponseEntity<User>(HttpStatus.CONFLICT);
+		}
+		else {
 	userService.addWithDefaultRole(user);
- 
+	return new ResponseEntity<User>(currentUser, HttpStatus.OK);
+		}
 }
 
 @DeleteMapping("/admin/delete/{id}")
-public void delete(@PathVariable Integer id) {
+public ResponseEntity<Void> delete(@PathVariable Integer id) {
+	 log.info("deleting user with id: {}");
+	 User user=userService.getUserById(id);
+	 if(user==null) {
+		  return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+	 }
+	 else {
 userService.deleteUser(id);
-}
+return new ResponseEntity<Void>(HttpStatus.OK);
+	 }}
 
 			// USER
 @PutMapping("/user/{id}/details")
@@ -85,15 +120,25 @@ public void saveDetails(@RequestBody User user,@PathVariable Integer id) {
 	    
 }
 @GetMapping("/user/{id}")
-public User getUser(@PathVariable  Integer id) {
-return userService.getUserById(id);
+public ResponseEntity<User> getUser(@PathVariable  Integer id) {
+User user =userService.getUserById(id);
+if(user==null) {
+	return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+}
+else {
+    return new ResponseEntity<User>(user, HttpStatus.OK);	
+}
 }
 
 @GetMapping("user/aboutme/{id}")
-public User about(@PathVariable Integer id, Model m) {
-return 	userService.getUserById(id);
-
-}}
+public  ResponseEntity<User> about(@PathVariable Integer id, Model m) {
+	User user =userService.getUserById(id);
+	if(user==null) {
+		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+	}
+	else {
+	    return new ResponseEntity<User>(user, HttpStatus.OK);	
+	}}}
   
 
 

@@ -6,16 +6,20 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import Main.Validation.RegisterFormValidator;
+import Main.Validation.TopicFormValidator;
 import Main.model.Post;
 import Main.model.Topic;
 import Main.model.User;
@@ -28,14 +32,14 @@ import Main.service.UserService;
 
 @Controller
 public class TopicController {
-	private static Logger log = Logger.getLogger(LoginController.class.getName());
-	@Autowired
-	private RegisterFormValidator validator;
+	private static Logger log = Logger.getLogger(TopicController.class.getName());
+
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private TopicService topicService;
-
+	@Autowired
+	private TopicFormValidator validator;
 	@GetMapping("/user/topics")
 	private String topics(Model m) {
 	List<Topic> topic = topicService.findAlltopics();
@@ -50,7 +54,7 @@ public class TopicController {
 	}
 	
 	@PostMapping("/user/topics/createtopic")
-	private String createTopicPost(@ModelAttribute("topicForm") TopicForm topicF)
+	private String createTopicPost(@ModelAttribute("topicForm") TopicForm topicF,BindingResult result)
 	{
 		String author = SecurityContextHolder.getContext().getAuthentication().getName();
 		Topic created = topicF.createTopica();
@@ -60,7 +64,12 @@ public class TopicController {
 		firstPost.setAuthor(topicAuthor);
 		firstPost.setContent(topicF.getFirstPostContent());
 	
+		
 	created.getPosts().add(firstPost);
+	validator.validateTopic(created, result);
+	if(result.hasErrors()) {
+		return "/user/createTopic";
+	}
 	topicService.saveTopic(created);
 	return "redirect:/user/topics/"+created.getTitle();
 	}
