@@ -41,19 +41,31 @@ public class UserController {
 		this.userService = userService;
 	}
 
-	// ADMIN CRUD
+	//ADMIN CRUD
+		/** deleting user by id
+		 * @param id of deleting user
+		 * @return list of users
+		 * */
 		 @RequestMapping("admin/delete/{id}")
 		    public String delete(@PathVariable Integer id){
 		        userService.deleteUser(id);
 		        return "redirect:/admin/uzytkownicy";
 		    }
-	
+		 /**
+		  * finding all users and displaying them
+		  * @return list of users
+		  *  */
 	@GetMapping("/admin/uzytkownicy")
 	public String uzytkownicy(Model m) {
 	List<User> uzytkownicy = userService.findAll();
 		m.addAttribute("uzytkownicy", uzytkownicy);
 		return "admin/uzytkownicy";
 	}
+	/**
+	 * editing user by id
+	 * @param id of user that we want to edit
+	 * @return list of users 
+	 * */
 	@GetMapping("/admin/edit/{id}")
     public String edit(@PathVariable Integer id, Model m) {
 		 m.addAttribute("user", userService.getUserById(id));
@@ -68,17 +80,27 @@ public class UserController {
 	
 	
 	// USER CRUD
+	/**displaying data about user that is logged in
+	 * @param id of logged user
+	 * @return data of logged user
+	 *  */
 @GetMapping("user/aboutme/{id}")
 public String about(@PathVariable Integer id, Model m) {
 	 m.addAttribute("user", userService.getUserById(id));
 	return "user/aboutme";
 }
-  
+  /**model to add details to user with specific id
+   * @param id of actual user
+   * @return  url to add details
+   * */
 @GetMapping("user/adddetails/{id}")
 public String addDetails(@PathVariable Integer id, Model m ) {
 	 m.addAttribute("user", userService.getUserById(id));
     return "user/details";
 }
+/**model of user
+ * @return url of actual user
+ *  */
 @GetMapping("/user")
 public String user(Model m) {
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -86,7 +108,11 @@ public String user(Model m) {
 	 m.addAttribute("user", userRepo.findByEmail(auth.getName()));
 	return "user";
 }
-
+/** 
+ * adding details to actual user
+ * @param user object to add details
+ * @return url of actual user
+ */
 @PostMapping("/adding")
 public String saveDetails(User user) {
 

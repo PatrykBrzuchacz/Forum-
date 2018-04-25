@@ -26,20 +26,30 @@ public class LoginController {
 public void setUserService(UserService userService) {
 	this.userService = userService;
 }
+	/** 
+returns the page responsible for logging in
+	 * */
 	@RequestMapping("/login")
 	public String login(Model model) {
 		model.addAttribute("user","user");
 	    return "login";
 }
+	/** 
+returns the page responsible for registering
+	 * */
 	@GetMapping("/register")
 	public String register(Model model) {
 		model.addAttribute("user", new User());
 		return "registerForm";
 	}
-	
+	/** user registration
+	 * @param user user data
+	 * @param result it is used to validate data
+	 *  @return registers the user
+	 * */
 	@PostMapping("/register")
 	public String addUser(@ModelAttribute("user") User user,
-			BindingResult result, RedirectAttributes redAtt) {
+			BindingResult result) {
 	validator.validate(user, result);
 	if(result.hasErrors()) {
 		log.info("Formularz rejestracyjny - NIE przeszedł walidacji");

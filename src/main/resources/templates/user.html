@@ -1,22 +1,50 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-
+<meta charset="UTF-8"></meta>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- plugins -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   <link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}"/>
+<title>Registration Success</title>
 </head>
 <body>
-
-
-        <h1>User page (Spring Security protected)</h1>
-
- <p>	<a href="#" th:href="@{'/user/aboutme/' + ${user.id}}">about me</a></p>
-	<p>	<a href="#" th:href="@{'/user/adddetails/' + ${user.id}}">add details</a> </p>
-		<p>	<a href="#" th:href="@{'/user/topics/'}">List of topics</a> </p>
-	
-        <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-        <form th:action="@{/logout}" method="post">
+<!-- nagłówek -->
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="">Strona główna</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="#" th:href="@{/}">Home</a></li>
+      <li><a href="#" th:href="@{/register}">Register page</a> </li>
+      <li><a href="#" th:href="@{/admin}">Admin page</a> </li>
+      <li class="active"><a href="#" th:href="@{/user}">User page</a></li>
+      <li><a href="#" th:href="@{/about}">About</a></li>
+      <li><a href="#" th:href="@{/user/topics}">Topics</a></li>
+	  <li><form th:action="@{/logout}" method="post">
             <input type="submit" value="Sign Out"/>
-        </form>
-        
+        </form></li>
+      
+    </ul>
+  </div>
+</nav>
+
+<!--srodek strony -->
+
+  <div class="jumbotron text-center">
+ 	 <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+ <p>	<a href="#" th:href="@{'/user/aboutme/' + ${user.id}}">About me</a></p>
+	<p>	<a href="#" th:href="@{'/user/adddetails/' + ${user.id}}">Add details</a> </p>
+	
+       
+</div>
+
+
+   <!-- stopka--> <footer class="asd text-center hidden-xs" th:fragment="footer"> Autor: Patryk Brzuchacz &#9400;</footer>
+
 
 
 

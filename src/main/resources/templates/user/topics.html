@@ -1,21 +1,48 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring Security Example </title>
-
+<meta charset="UTF-8"></meta>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- plugins -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   <link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}"/>
+<title>Registration Success</title>
 </head>
 <body>
-    <form th:action="@{/logout}" method="post">
+<!-- nagłówek -->
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="">Strona główna</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="#" th:href="@{/}">Home</a></li>
+      <li><a href="#" th:href="@{/register}">Register page</a> </li>
+      <li><a href="#" th:href="@{/admin}">Admin page</a> </li>
+      <li ><a href="#" th:href="@{/user}">User page</a></li>
+      <li><a href="#" th:href="@{/about}">About</a></li>
+      <li class="active"><a href="#" th:href="@{/user/topics}">Topics</a></li>
+	  <li><form th:action="@{/logout}" method="post">
             <input type="submit" value="Sign Out"/>
-        </form>
-   <a href="#" th:href="@{/register}">Register</a>
+        </form>  </li>
+      
+    </ul>
+  </div>
+</nav>
+
+<!--srodek strony -->
+
+  <div class="jumbotron text-center">
+
   <div th:if="not ${topic.isEmpty()}">
-  <table border="1">
+  <table border="1" align="center">
   <tr>
   <th>nazwa tematu</th></tr>
   
    	<tr th:each="topi : ${topic}">
-   	<td><a  th:href="${'/user/topics/' + topi.title}" th:text="${topi.title}"><span>edit</span></a>
+   	<td><a  th:href="${'/user/topics/' + topi.title}" th:text="${topi.title}"><span>Temat</span></a>
     </td>
     </tr>
     </table>
@@ -23,6 +50,18 @@
      <div th:if="${topic.isEmpty()}">
         <h1>There is no data yet :(</h1>
     </div>
+    <br />
      <a href="#" th:href="@{/user/topics/createtopic}">create Topic</a>
-    </body>
-    </html>
+
+</div>
+
+
+   <!-- stopka--> <footer class="asd text-center hidden-xs" th:fragment="footer"> Autor: Patryk Brzuchacz &#9400;</footer>
+
+
+
+
+
+
+</body>
+</html>
