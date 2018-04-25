@@ -130,9 +130,19 @@ public class TopicController {
 		else {
 			log.info("post error");
 			return "/user/post";
-		}
-		
-		
+		}	
 	}
-
+	/**
+	 * Getting topics by user id
+	 * @param id id of the user that we want to show topics
+	 * @param m
+	 * @return list of topics
+	 */
+	@GetMapping("/user/{id}/topics")
+	private String UsersTopics(@PathVariable Integer id, Model m) {
+		User user= userService.getUserById(id);
+		List<Topic> top = topicService.findTopicByAuthor(user);
+		m.addAttribute("topic", top);
+		return "/user/topicsauthor";
+	}
 }

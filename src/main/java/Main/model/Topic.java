@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 
+
 @Entity
 public class Topic {
 	@Id
@@ -68,4 +69,5 @@ public class Topic {
 	public void setAuthor(User author) {
 		this.author = author;
 	}
+
 }
