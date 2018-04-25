@@ -28,7 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public UserDetailsService customUserDetailsService() {
 		return new CustomUserDetailsService();
 	}
-	
+	/**
+	 * addding default user with admin role
+	 */
 	  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 	        auth.inMemoryAuthentication()
 	     
@@ -40,11 +42,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	  public static NoOpPasswordEncoder passwordEncoder() {
 	  return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
 	  }
+
 	@Override
 	protected void configure(HttpSecurity http ) throws Exception {
 		http
 		.authorizeRequests()
-			.antMatchers("/","/register","/about","/api/**", "/api/register", "/api/user/topics").permitAll()
+			.antMatchers("/","/register","/about","/api/**").permitAll()
 			.antMatchers("/admin").hasAnyRole("ADMIN")
 			.antMatchers("/user", "/user/**").hasAnyRole("USER")
 			.anyRequest().authenticated()

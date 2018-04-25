@@ -2,11 +2,39 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8"></meta>
-<title>Registration form</title>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- plugins -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   <link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}"/>
+<title>Registration Success</title>
 </head>
 <body>
-	<h1>Registration form</h1>
-	<form action="#" method="post" th:action="@{/register}" th:object="${user}">
+<!-- nagłówek -->
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="">Strona główna</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="#" th:href="@{/}">Home</a></li>
+      <li class="active"><a href="#" th:href="@{/register}">Register page</a> </li>
+      <li><a href="#" th:href="@{/admin}">Admin page</a> </li>
+      <li><a href="#" th:href="@{/user}">User page</a></li>
+      <li><a href="#" th:href="@{/about}">About</a></li>
+      <li><a href="#" th:href="@{/user/topics}">Topics</a></li>
+	  <li><form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form></li>
+      
+    </ul>
+  </div>
+</nav>
+
+<!--srodek strony -->
+    <div class="jumbotron text-center">
+<form action="#" method="post" th:action="@{/register}" th:object="${user}">
 
         <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">first name errors</p>
 		<input th:field="*{firstName}" placeholder="First Name" /><br />
@@ -14,17 +42,19 @@
         <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last name errors</p>
 		<input th:field="*{lastName}" placeholder="Last Name" /><br />
 		 <br />
-			<div th:each="error : ${#fields.errors('email')}">
-								<h6  type="text" th:text="'*' +${error}">...</h6>
-							</div>
+	 <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email errors</p>
 		<input th:field="*{email}" type="email" placeholder="Email" />
-
-		<br />
-		
+		<br />	
 		 <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password errors</p>
 		<input th:field="*{password}" type="password" placeholder="Password" /><br />
 	
 		<input type="submit" value="Register" />
 	</form>
+</div>
+
+
+   <!-- stopka--> <footer class="asd text-center hidden-xs" th:fragment="footer"> Autor: Patryk Brzuchacz &#9400;</footer>
+   
+   
 </body>
 </html>

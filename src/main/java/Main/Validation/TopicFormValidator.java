@@ -14,6 +14,8 @@ import org.springframework.validation.ValidationUtils;
 
 import Main.model.Post;
 import Main.model.Topic;
+import Main.model.form.PostForm;
+import Main.model.form.TopicForm;
 import Main.service.TopicService;
 
 @Component
@@ -26,7 +28,7 @@ public boolean supports(Class<?> clazz) {
 	return false;
 }
 public void validateTopic(Object target, Errors errors) {
-	Topic topic = (Topic) target;
+	TopicForm topic = (TopicForm) target;
 	
 	ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "notEmpty");
 	
@@ -34,9 +36,16 @@ public void validateTopic(Object target, Errors errors) {
 		errors.rejectValue("title", "title.size");
 	if(topicService.findByTitle(topic.getTitle()) != null) {
 		errors.rejectValue("title", "title.duplication");
-}}
+}	
+	ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstPostContent", "notEmpty");
+	if(topic.getFirstPostContent().length() < 8 || topic.getFirstPostContent().length() > 20) 
+	errors.rejectValue("firstPostContent", "post.size");
+
+}
+	
+
 	public void validatePost(Object target, Errors errors) {
-		Post post = (Post) target;
+		PostForm post = (PostForm) target;
 		
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "content", "notEmpty");
 		

@@ -53,6 +53,11 @@ public class TopicRestController {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
+		/**
+		 * a function that gives us the appearance of list topics
+		 * 
+		 * @return we return the look of the list of topics
+		 */
 		@GetMapping("/user/topics")
 		public ResponseEntity<List<Topic>> topicRest() {
 			log.info("getting all topics");
@@ -63,7 +68,10 @@ public class TopicRestController {
 			else return new ResponseEntity<List<Topic>>(topics,HttpStatus.OK);
 			
 		}
-
+		/**    Displaying a specific topic
+		 * @param topictitle is used to find a specific topic
+		 * @return We return information about http status: OK or NOT FOUND
+		 *  */
 		@GetMapping("/user/topics/{topictitle}")
 		public ResponseEntity<Topic> topic(@PathVariable("topictitle") String topictitle) {
 		Topic topic=topicService.findByTitle(topictitle);
