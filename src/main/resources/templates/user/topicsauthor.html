@@ -21,12 +21,12 @@
       <li><a href="#" th:href="@{/}">Home</a></li>
       <li><a href="#" th:href="@{/register}">Register page</a> </li>
       <li><a href="#" th:href="@{/admin}">Admin page</a> </li>
-      <li class="active"><a href="#" th:href="@{/user}">User page</a></li>
+      <li ><a href="#" th:href="@{/user}">User page</a></li>
       <li><a href="#" th:href="@{/about}">About</a></li>
-      <li><a href="#" th:href="@{/user/topics}">Topics</a></li>
+      <li class="active"><a href="#" th:href="@{/user/topics}">Topics</a></li>
 	  <li><form th:action="@{/logout}" method="post">
             <input type="submit" value="Sign Out"/>
-        </form></li>
+        </form>  </li>
       
     </ul>
   </div>
@@ -35,11 +35,24 @@
 <!--srodek strony -->
 
   <div class="jumbotron text-center">
- 	 <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
- <p>	<a href="#" th:href="@{'/user/aboutme/' + ${user.id}}">About me</a></p>
-	<p>	<a href="#" th:href="@{'/user/adddetails/' + ${user.id}}">Add details</a> </p>
-		<p>	<a href="#" th:href="@{/user/allusers/}">Show users</a> </p>
-       
+
+  <div th:if="not ${topic.isEmpty()}">
+  <table border="1" align="center">
+  <tr>
+  <th>nazwa tematu</th></tr>
+  
+   	<tr th:each="topi : ${topic}">
+   	<td><a  th:href="${'/user/topics/' + topi.title}" th:text="${topi.title}"><span>Temat</span></a>
+    </td>
+    </tr>
+    </table>
+    </div>
+     <div th:if="${topic.isEmpty()}">
+        <h1>There is no data yet :(</h1>
+    </div>
+    <br />
+     <a href="#" th:href="@{/user/topics/createtopic}">create Topic</a>
+
 </div>
 
 

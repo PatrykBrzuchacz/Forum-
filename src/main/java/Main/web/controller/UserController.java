@@ -124,4 +124,17 @@ public String saveDetails(User user) {
 	    return "redirect:/user";
   
 }
+/**
+ * view of all users
+ * 
+ * @return list of users
+ */
+@GetMapping("/user/allusers/")
+private String allUsers(Model m) {
+	List<User> uzytkownicy = userService.findAll();
+	m.addAttribute("uzytkownicy", uzytkownicy);
+	return "user/allusers";
+}
+
+
 }
