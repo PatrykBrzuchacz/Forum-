@@ -36,10 +36,14 @@
 
   <div class="jumbotron text-center">
 <form action="#" method="post" th:action="@{/adding}" th:object="${user}">
+
   <input type="hidden" th:field="*{id}"/>
+  
+       <p th:if="${#fields.hasErrors('mobileNumber')}" th:errors="*{mobileNumber}">first name errors</p>
 		<input th:field="*{mobileNumber}" placeholder="number" /><br />
+		     <p th:if="${#fields.hasErrors('nationality')}" th:errors="*{nationality}">first name errors</p>
 		<input th:field="*{nationality}" placeholder="nationality" /><br />
-	
+	     <p th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">first name errors</p>
 		<input th:field="*{gender}"  placeholder="gender" /><br />
 	
 

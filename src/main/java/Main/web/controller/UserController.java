@@ -72,10 +72,17 @@ public class UserController {
         return "admin/edit";
 }
 	@PostMapping("/update")
-    public String update(User user) {
+    public String update(User user, BindingResult result) {
+		
+		validator.validate2(user, result);
+		if(result.hasErrors()) {
+			log.info("Formularz rejestracyjny - NIE przeszedł walidacji");
+				return "/admin/edit";
+				}
+		else {
         userService.saveUser(user);
 
-        return "redirect:/admin/uzytkownicy";
+        return "redirect:/admin/uzytkownicy";}
 }
 	
 	
@@ -114,15 +121,21 @@ public String user(Model m) {
  * @return url of actual user
  */
 @PostMapping("/adding")
-public String saveDetails(User user) {
+public String saveDetails(User user, BindingResult result) {
 
 	 User updatingUser = userService.getUserById(user.getId());
+	 validator.validateDetails(user, result);
+	 if(result.hasErrors()) {
+			log.info("Formularz rejestracyjny - NIE przeszedł walidacji");
+				return "/user/details";
+				}else {
 	    updatingUser.setMobileNumber(user.getMobileNumber());
 	    updatingUser.setNationality(user.getNationality());
 	    updatingUser.setGender(user.getGender());
+	   
 	    userService.saveUser(updatingUser);
 	    return "redirect:/user";
-  
+				}
 }
 /**
  * view of all users
@@ -137,4 +150,6 @@ private String allUsers(Model m) {
 }
 
 
+	
 }
+

@@ -17,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -37,6 +38,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import Main.model.User;
@@ -65,7 +67,7 @@ public class UserRestControllerTest {
                 
                 .build();
     }
-
+   
     @Test
     public void test_get_all_success() throws Exception {
        List<User> users =  Arrays.asList(
@@ -88,6 +90,7 @@ public class UserRestControllerTest {
                 .andExpect(jsonPath("$[1].lastName", is("Snow")))
                 .andExpect(jsonPath("$[1].email", is("email2")))
                 .andExpect(jsonPath("$[1].password", is("haselko")));
+        
 
         verify(userService, times(1)).findAll();
         verifyNoMoreInteractions(userService);
@@ -116,28 +119,31 @@ public class UserRestControllerTest {
 /*
     @Test
     public void test_create_user_success() throws Exception {
-    	User user =  new User(1, "Daenerys","Targaryes","emaill","haslo");
-    
-       when(userService.addWithDefaultRole(user)).thenReturn(user);
+    	User user =  new User(1,"Daenerys","Targaryes","ema@adsill","hasewlo");
+ 
+       when(userService.addWithDefaultRole(user));
 
         mockMvc.perform(
                 post("/api/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(user)))
-                .andExpect(status().isCreated())
-                .andExpect(header().string("location", containsString("api/users/1")));
+        
+       .contentType(MediaType.APPLICATION_JSON)
+
+        .content(convertObjectToJsonBytes(user)))
+        .andExpect(status().isCreated())
+        .andExpect(header().string("location", containsString("api/user/1")));
+
 
    
         verify(userService, times(1)).addWithDefaultRole(user);
         verifyNoMoreInteractions(userService);
     }
-  
+  /*
        @Test
     public void test_update_user_success() throws Exception {
  	User user =  new User(1, "Daenerys","Targaryes","emaill","haslo");
 
         when(userService.getUserById(user.getId())).thenReturn(user);
-        when(userService).update(user);
+        when(userService.update(user));
 
         mockMvc.perform(
                 put("/api/admin/edit/{id}", user.getId())
@@ -149,14 +155,14 @@ public class UserRestControllerTest {
         verify(userService, times(1)).update(user);
         verifyNoMoreInteractions(userService);
     }
-    */
+    
     
     @Test
     public void test_delete_user_success() throws Exception {
     	User user =  new User(1, "Daenerys","Targaryes","emaill","haslo");
 
-        when(userService.getUserById(user.getId())).thenReturn(user);
-        doNothing().when(userService).deleteUser(user.getId());
+        when(userService.getUserById(user.getId()));
+       
 
         mockMvc.perform(
                 delete("/api/admin/delete/{id}", user.getId()))
@@ -165,14 +171,12 @@ public class UserRestControllerTest {
         
         verify(userService, times(1)).deleteUser(user.getId());
         verifyNoMoreInteractions(userService);
+    }*/
+
+    public static byte[] convertObjectToJsonBytes(Object object) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        return mapper.writeValueAsBytes(object);
     }
-    
-    public static String asJsonString(final Object obj) {
-        try {
-            final ObjectMapper mapper = new ObjectMapper();
-            return mapper.writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
-}
+

@@ -60,7 +60,7 @@ public class UserRestController {
 			else {
 		userService.addWithDefaultRole(user);
 		 HttpHeaders headers = new HttpHeaders();
-	        headers.setLocation(ucBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri());
+	        headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
 	        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 			}}
 		
