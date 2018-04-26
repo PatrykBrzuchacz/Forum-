@@ -20,7 +20,7 @@ public interface UserService {
 User saveUser(User user);
 User getUserById(Integer id);
 void addDetails(User user);
-	public void deleteUser(int id);
+	void deleteUser(int id);
 	User update(User user);
 
 }

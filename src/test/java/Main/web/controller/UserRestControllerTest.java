@@ -8,6 +8,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -15,6 +16,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
@@ -30,6 +32,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.test.context.ContextConfiguration;
@@ -41,6 +44,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import Main.Validation.RegisterFormValidator;
 import Main.model.User;
 import Main.model.UserRole;
 import Main.rest.Controller.UserRestController;
@@ -52,7 +56,7 @@ import Main.service.UserService;
 public class UserRestControllerTest {
 
 	private MockMvc mockMvc;
-
+	@Mock private RegisterFormValidator validator;
     @Mock
     private UserService userService;
 
@@ -67,7 +71,8 @@ public class UserRestControllerTest {
                 
                 .build();
     }
-   
+
+    // =========================================== Get All Users ==========================================
     @Test
     public void test_get_all_success() throws Exception {
        List<User> users =  Arrays.asList(
@@ -95,7 +100,7 @@ public class UserRestControllerTest {
         verify(userService, times(1)).findAll();
         verifyNoMoreInteractions(userService);
     }
-   
+    // =========================================== Get User By ID =========================================
     @Test
     public void test_get_by_id_success() throws Exception {
         User user =  new User(1, "Daenerys","Targaryes","emaill","haslo");
@@ -116,34 +121,46 @@ public class UserRestControllerTest {
         verify(userService, times(1)).getUserById(1);
         verifyNoMoreInteractions(userService);
     }
-/*
+    
+    @Test
+    public void test_get_by_id_fail_404_not_found() throws Exception {
+        when(userService.getUserById(1)).thenReturn(null);
+
+        mockMvc.perform(get("/api/user/{id}", 1))
+                .andExpect(status().isNotFound());
+
+        verify(userService, times(1)).getUserById(1);
+        verifyNoMoreInteractions(userService);
+    }
+    
+ // =========================================== Create New User ========================================
+
     @Test
     public void test_create_user_success() throws Exception {
-    	User user =  new User(1,"Daenerys","Targaryes","ema@adsill","hasewlo");
- 
-       when(userService.addWithDefaultRole(user));
+    	 User user =  new User("Daenerys","Targaryes","emai@asdll","cxzhaslo");
+         
+
+        
+      when(userService.addWithDefaultRole(user)).thenReturn(user);
 
         mockMvc.perform(
                 post("/api/register")
-        
-       .contentType(MediaType.APPLICATION_JSON)
-
-        .content(convertObjectToJsonBytes(user)))
-        .andExpect(status().isCreated())
-        .andExpect(header().string("location", containsString("api/user/1")));
-
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(user)))
+                .andExpect(status().isCreated());
+                
 
    
         verify(userService, times(1)).addWithDefaultRole(user);
         verifyNoMoreInteractions(userService);
     }
-  /*
+   
+    // =========================================== Update Existing User ===================================
        @Test
     public void test_update_user_success() throws Exception {
- 	User user =  new User(1, "Daenerys","Targaryes","emaill","haslo");
+ 	User user =  new User(1, "Daenerys","Targaryes","ema@dasil","hadaslo");
 
-        when(userService.getUserById(user.getId())).thenReturn(user);
-        when(userService.update(user));
+ 	when(userService.addWithDefaultRole(userService.getUserById(user.getId()))).thenReturn(user);
 
         mockMvc.perform(
                 put("/api/admin/edit/{id}", user.getId())
@@ -152,31 +169,51 @@ public class UserRestControllerTest {
                 .andExpect(status().isOk());
 
         verify(userService, times(1)).getUserById(user.getId());
-        verify(userService, times(1)).update(user);
+        verify(userService, times(1)).addWithDefaultRole(userService.getUserById(user.getId()));
         verifyNoMoreInteractions(userService);
     }
-    
+       // =========================================== Delete User ============================================
     
     @Test
     public void test_delete_user_success() throws Exception {
-    	User user =  new User(1, "Daenerys","Targaryes","emaill","haslo");
+    	User user =  new User(1, "Daenerys","Targaryes","em@dadaill","hasldao");
 
-        when(userService.getUserById(user.getId()));
+    	when(userService.getUserById(user.getId())).thenReturn(user);
+    	doNothing().when(userService).deleteUser(user.getId());
        
 
         mockMvc.perform(
                 delete("/api/admin/delete/{id}", user.getId()))
                 .andExpect(status().isOk());
 
-        
-        verify(userService, times(1)).deleteUser(user.getId());
+        verify(userService, times(1)).getUserById(user.getId());
+        verify(userService, times(1)).deleteUser(1);
         verifyNoMoreInteractions(userService);
-    }*/
-
-    public static byte[] convertObjectToJsonBytes(Object object) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        return mapper.writeValueAsBytes(object);
     }
+    
+    @Test
+    public void test_delete_user_fail() throws Exception {
+    	User user =  new User(999, "Dys","Targaryes","emdadaill","hasldao");
+
+    	when(userService.getUserById(user.getId())).thenReturn(null);
+       
+
+        mockMvc.perform(
+                delete("/api/admin/delete/{id}", user.getId()))
+        .andExpect(status().isNotFound());
+
+        verify(userService, times(1)).getUserById(user.getId());
+    
+        verifyNoMoreInteractions(userService);
+    }
+//converter
+    public static String asJsonString(final Object obj) {
+        try {
+            final ObjectMapper mapper = new ObjectMapper();
+            return mapper.writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
+}
