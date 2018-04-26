@@ -19,8 +19,7 @@ import Main.service.UserService;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired 
-	UserRepository repo;
+	
 	@Autowired
 	private AccessDeniedHandler accessDenied;
 	
@@ -47,8 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http ) throws Exception {
 		http
 		.authorizeRequests()
-			.antMatchers("/","/register","/about","/api/**","/api/admin/list").permitAll()
-			.antMatchers("/admin").hasAnyRole("ADMIN")
+			.antMatchers("/","/register","/about","/api/**").permitAll()
+			.antMatchers("/admin","/admin**").hasAnyRole("ADMIN")
 			.antMatchers("/user", "/user/**").hasAnyRole("USER")
 			.anyRequest().authenticated()
 		.and()

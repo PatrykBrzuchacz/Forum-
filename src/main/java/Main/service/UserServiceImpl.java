@@ -22,6 +22,10 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserRoleRepository roleRepository;
 
+	public UserServiceImpl(UserRepository repository) {
+		userRepository=repository;
+	}
+
 	public User addWithDefaultRole(User user) {
 		UserRole role = new UserRole(1,"ROLE_USER");
 		roleRepository.save(role);
@@ -29,6 +33,7 @@ public class UserServiceImpl implements UserService{
 		user.getRoles().add(defaultRole);
 		return userRepository.save(user);
 	}
+
 
 	@Override
 	public List<User> findAll(){
