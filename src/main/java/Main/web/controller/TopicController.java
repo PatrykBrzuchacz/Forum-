@@ -46,9 +46,10 @@ public class TopicController {
 	 * @return we return the look of the list of topics
 	 */
 	@GetMapping("/user/topics")
-	private String topics(Model m) {
+	private String topics(Model m, Topic top) {
 	List<Topic> topic = topicService.findAlltopics();
 	m.addAttribute("topic", topic);
+	m.addAttribute("top", top);
 		return "/user/topics";
 	}
 /**  A function that gives us the appearance of creating a theme
@@ -145,4 +146,7 @@ public class TopicController {
 		m.addAttribute("topic", top);
 		return "/user/topicsauthor";
 	}
-}
+	@PostMapping("/neededtopic")
+	private String needTopic(@ModelAttribute("top") Topic topic) {
+		return "redirect:/user/topics/"+topic.getTitle();
+}}

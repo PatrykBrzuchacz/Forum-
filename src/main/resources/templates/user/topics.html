@@ -54,8 +54,13 @@
      <a href="#" th:href="@{/user/topics/createtopic}">create Topic</a>
 
 </div>
-
-
+<div class="jumbotron text-center">
+<h1>Znajdz temat</h1>
+<p> wpisz tytul</p>
+<form action="#" method="post" th:action="@{/neededtopic}" th:object="${top}">
+<input th:field="*{title}" placeholder="title" /><br />
+<input type="submit" value="Go" />
+	</form></div>
    <!-- stopka--> <footer class="asd text-center hidden-xs" th:fragment="footer"> Autor: Patryk Brzuchacz &#9400;</footer>
 
 

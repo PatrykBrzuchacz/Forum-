@@ -23,6 +23,8 @@ public class UserServiceImpl implements UserService{
 	private UserRoleRepository roleRepository;
 
 	public User addWithDefaultRole(User user) {
+		UserRole role = new UserRole(1,"ROLE_USER");
+		roleRepository.save(role);
 		UserRole defaultRole = roleRepository.findByRole(DEFAULT_ROLE);
 		user.getRoles().add(defaultRole);
 		return userRepository.save(user);
