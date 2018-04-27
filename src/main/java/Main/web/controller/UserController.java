@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import Main.Validation.RegisterFormValidator;
 import Main.model.User;
+import Main.model.form.UserSorter;
 import Main.repository.UserRepository;
 import Main.service.UserService;
 
@@ -40,6 +41,7 @@ public class UserController {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
+		
 
 	//ADMIN CRUD
 		/** deleting user by id
@@ -126,7 +128,7 @@ public String saveDetails(User user, BindingResult result) {
 	 User updatingUser = userService.getUserById(user.getId());
 	 validator.validateDetails(user, result);
 	 if(result.hasErrors()) {
-			log.info("Formularz rejestracyjny - NIE przeszedł walidacji");
+			log.info("Formularz dodajacy detale - NIE przeszedł walidacji");
 				return "/user/details";
 				}else {
 	    updatingUser.setMobileNumber(user.getMobileNumber());
@@ -144,8 +146,10 @@ public String saveDetails(User user, BindingResult result) {
  */
 @GetMapping("/user/allusers/")
 private String allUsers(Model m) {
-	List<User> uzytkownicy = userService.findAll();
-	m.addAttribute("uzytkownicy", uzytkownicy);
+	ArrayList<User> uzytkownicy = (ArrayList<User>) userService.findAll();
+	UserSorter userSorter=new UserSorter(uzytkownicy);
+	ArrayList<User> uzytkownicy2=userSorter.sortByName();
+	m.addAttribute("uzytkownicy", uzytkownicy2);
 	return "user/allusers";
 }
 
