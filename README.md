@@ -12,4 +12,4 @@ insert into user(email,password) VALUES ("Admin","$2a$10$xqyfP/i76NAJNSseQCIvXuQ
 insert into user_roles(user_id,roles_id) Values(1,1)
 "
 login: admin     haslo: qwerty   - moze on edytowac uzytkownikow,usuwac ich
--------------------------- na co zabraklo czasu : estetyczny wygląd, edycja tematow,postow, lepsze filtrowanie, wiecej testow m.in. dla walidacji
+------------------------------------- na co zabraklo czasu : estetyczny wygląd, edycja tematow,postow, lepsze filtrowanie, wiecej testow m.in. dla walidacji
