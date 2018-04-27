@@ -33,7 +33,7 @@ import Main.service.UserService;
 @Controller
 public class TopicController {
 	private static Logger log = Logger.getLogger(TopicController.class.getName());
-
+@Autowired private PostForm post;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -73,8 +73,11 @@ public class TopicController {
 	{
 		validator.validateTopic(topicF, result);
 		String author = SecurityContextHolder.getContext().getAuthentication().getName();
-		if(!result.hasErrors())
-		{		Topic created = topicF.createTopica();
+		if(result.hasErrors()) {
+			log.info("Formularz dodajacy posty - NIE przeszedł walidacji");
+			return "/user/createTopic";
+			}else {
+			Topic created = topicF.createTopica();
 		User topicAuthor=userService.findByEmail(author);
 		created.setAuthor(topicAuthor);
 		Post firstPost = new Post();
@@ -87,10 +90,7 @@ public class TopicController {
 	topicService.saveTopic(created);
 	return "redirect:/user/topics/"+created.getTitle();
 	}
-		else {
-			log.info("errors");
-			return "/user/createTopic";
-		}}
+		}
 	/**    Displaying a specific topic
 	 * @param topictitle is used to find a specific topic
 	 * @return We return information about a specific topic  with posts
@@ -117,9 +117,13 @@ public class TopicController {
 	private String addPost(@PathVariable("topictitle") String topictitle, @ModelAttribute("postAdd") PostForm form, 
 			BindingResult result)
 	{	
-		validator.validatePost(form, result);
-		if(!result.hasErrors()) {
+		
 		Post post = form.createPost();
+		validator.validatePost(post, result);
+		if(result.hasErrors()) {
+			log.info("Formularz dodajacy posty - NIE przeszedł walidacji");
+			return "/user/post";
+			}else {
 		String author = SecurityContextHolder.getContext().getAuthentication().getName();
 		User postAuthor = userService.findByEmail(author);
 		post.setAuthor(postAuthor);
@@ -128,11 +132,9 @@ public class TopicController {
 		topicService.updateTopic(topic);
 		return "redirect:/user/topics/" + topictitle;
 		}
-		else {
-			log.info("post error");
-			return "/user/post";
+		
 		}	
-	}
+	
 	/**
 	 * Getting topics by user id
 	 * @param id id of the user that we want to show topics

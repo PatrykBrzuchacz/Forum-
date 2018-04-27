@@ -45,6 +45,7 @@
 </table>
 <br />
 <form action="#" th:action="@{'/user/topics/' + ${topictitle} }" method="post" th:object="${postAdd}">
+	 <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}">first name errors</p>
 	<textarea placeholder="Odpowiedź" maxlength="2048" rows="5" th:field="*{content}"></textarea>
 	<br />
 		<input type="submit" value="Dodaj" />

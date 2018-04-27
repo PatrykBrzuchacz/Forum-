@@ -32,24 +32,24 @@ public void validateTopic(Object target, Errors errors) {
 	
 	ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "notEmpty");
 	
-	if(topic.getTitle().length() < 6 || topic.getTitle().length() > 20) 
+	if(topic.getTitle().length() < 2 || topic.getTitle().length() > 20) 
 		errors.rejectValue("title", "title.size");
 	if(topicService.findByTitle(topic.getTitle()) != null) {
 		errors.rejectValue("title", "title.duplication");
 }	
 	ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstPostContent", "notEmpty");
-	if(topic.getFirstPostContent().length() < 8 || topic.getFirstPostContent().length() > 20) 
+	if(topic.getFirstPostContent().length() < 2 || topic.getFirstPostContent().length() > 20) 
 	errors.rejectValue("firstPostContent", "post.size");
 
 }
 	
 
 	public void validatePost(Object target, Errors errors) {
-		PostForm post = (PostForm) target;
+		Post post = (Post) target;
 		
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "content", "notEmpty");
 		
-		if(post.getContent().length() < 8|| post.getContent().length() > 100) 
+		if(post.getContent().length() < 2|| post.getContent().length() > 100) 
 			errors.rejectValue("post", "post.size");
 	}
 	@Override

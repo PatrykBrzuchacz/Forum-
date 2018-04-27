@@ -37,10 +37,10 @@
   <div class="jumbotron text-center">
  
 <form action="#" method="post" th:action="@{/user/topics/createtopic}" th:object="${topicForm}">
-
+ <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}">first name errors</p>
 <input type="text" placeholder="Tytul tematu" maxlength="63" th:field="*{title}"/>
 <br />
-
+ <p th:if="${#fields.hasErrors('firstPostContent')}" th:errors="*{firstPostContent}">first name errors</p>
 <textarea  placeholder="Tresc" maxlength="2048" rows="5" th:field="*{firstPostContent}">
 							</textarea> 
 							<br />

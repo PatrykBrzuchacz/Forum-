@@ -2,6 +2,7 @@ package Main.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -84,6 +85,11 @@ public class User implements Serializable{
 	public String getMobileNumber() {
 		return mobileNumber;
 	}
+	public static Comparator<User> nameComparator=new Comparator<User>() {
+		public int compare(User us1, User us2) {
+			return (int) (us1.getFirstName().compareTo(us2.getFirstName()));
+		}
+	};
 	public void setMobileNumber(String mobileNumber) {
 		this.mobileNumber = mobileNumber;
 	}
