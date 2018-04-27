@@ -38,9 +38,9 @@ public class RegisterFormValidator implements Validator {
 		//Tutaj warunek że username nie wystepuje w bazie danych
 
 			if(userService.findByEmail(user.getEmail()) != null) {
-				errors.rejectValue("email", "email.duplication");
+				errors.rejectValue("email", "email.duplication");}
 				
-				if(!user.getEmail().contains("@"))
+				if(!user.getEmail().contains("@")) {
 					errors.rejectValue("email", "email.monkey");
 			} 
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "notEmpty");

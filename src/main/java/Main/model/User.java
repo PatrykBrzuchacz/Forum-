@@ -81,7 +81,7 @@ public class User implements Serializable{
 	private String mobileNumber;
 	private String nationality;
 	private String gender;
-	private int yearofbirth;
+
 	public String getMobileNumber() {
 		return mobileNumber;
 	}
@@ -105,12 +105,7 @@ public class User implements Serializable{
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public int getYearofbirth() {
-		return yearofbirth;
-	}
-	public void setYearofbirth(int yearofbirth) {
-		this.yearofbirth = yearofbirth;
-	}
+	
 	public int getId() {
 		return id;
 	}

@@ -82,7 +82,7 @@ public class UserController {
 				return "/admin/edit";
 				}
 		else {
-        userService.saveUser(user);
+        userService.addWithDefaultRole(user);
 
         return "redirect:/admin/uzytkownicy";}
 }
@@ -146,10 +146,9 @@ public String saveDetails(User user, BindingResult result) {
  */
 @GetMapping("/user/allusers/")
 private String allUsers(Model m) {
-	ArrayList<User> uzytkownicy = (ArrayList<User>) userService.findAll();
-	UserSorter userSorter=new UserSorter(uzytkownicy);
-	ArrayList<User> uzytkownicy2=userSorter.sortByName();
-	m.addAttribute("uzytkownicy", uzytkownicy2);
+	List<User> uzytkownicy = userService.findAll();
+
+	m.addAttribute("uzytkownicy", uzytkownicy);
 	return "user/allusers";
 }
 

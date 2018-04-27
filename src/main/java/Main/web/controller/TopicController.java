@@ -40,6 +40,8 @@ public class TopicController {
 	private TopicService topicService;
 	@Autowired
 	private TopicFormValidator validator;
+	
+	
 	/**
 	 * a function that gives us the appearance of list topics
 	 * 
@@ -52,6 +54,8 @@ public class TopicController {
 	m.addAttribute("top", top);
 		return "/user/topics";
 	}
+	
+	
 /**  A function that gives us the appearance of creating a theme
  * @return we return the look of the topic creation
  *   */
@@ -60,6 +64,8 @@ public class TopicController {
 		m.addAttribute("topicForm", new TopicForm());
 		return "/user/createTopic";
 	}
+	
+	
 	/**    A function for creating topics
 	 *  @param topicF
 	 *   class object {@link @TopicForm} that is used to create topics
@@ -91,6 +97,8 @@ public class TopicController {
 	return "redirect:/user/topics/"+created.getTitle();
 	}
 		}
+	
+	
 	/**    Displaying a specific topic
 	 * @param topictitle is used to find a specific topic
 	 * @return We return information about a specific topic  with posts
@@ -108,6 +116,8 @@ public class TopicController {
 	m.addAttribute("postAdd", new PostForm());
 	return "/user/post";
 	}
+	
+	
 	/**    The ability to add posts to a specific topic
 	 * @param topictitle is used to find a specific topic
 	 * @param form serves as a post creation model
@@ -148,6 +158,7 @@ public class TopicController {
 		m.addAttribute("topic", top);
 		return "/user/topicsauthor";
 	}
+	
 	/**
 	 * Finding topic by title
 	 * 
