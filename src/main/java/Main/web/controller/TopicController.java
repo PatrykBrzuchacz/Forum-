@@ -148,6 +148,11 @@ public class TopicController {
 		m.addAttribute("topic", top);
 		return "/user/topicsauthor";
 	}
+	/**
+	 * Finding topic by title
+	 * 
+	 * @return topic by title
+	 */
 	@PostMapping("/neededtopic")
 	private String needTopic(@ModelAttribute("top") Topic topic) {
 		return "redirect:/user/topics/"+topic.getTitle();
