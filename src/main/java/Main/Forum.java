@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import Main.model.UserRole;
 
 @SpringBootApplication
-public class SecurityuwierzytelnianieApplication {
+public class Forum {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SecurityuwierzytelnianieApplication.class, args);
+		SpringApplication.run(Forum.class, args);
 		
 		
 	}
