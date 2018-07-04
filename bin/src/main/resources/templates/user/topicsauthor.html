@@ -8,7 +8,7 @@
     <!-- plugins -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
    <link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}"/>
-<title>Registration </title>
+<title>Registration Success</title>
 </head>
 <body>
 <!-- nagłówek -->
@@ -19,42 +19,49 @@
     </div>
     <ul class="nav navbar-nav">
       <li><a href="#" th:href="@{/}">Home</a></li>
-      <li class="active"><a href="#" th:href="@{/register}">Register page</a> </li>
+      <li><a href="#" th:href="@{/register}">Register page</a> </li>
       <li><a href="#" th:href="@{/admin}">Admin page</a> </li>
-      <li><a href="#" th:href="@{/user}">User page</a></li>
+      <li ><a href="#" th:href="@{/user}">User page</a></li>
       <li><a href="#" th:href="@{/about}">About</a></li>
-      <li><a href="#" th:href="@{/user/topics}">Topics</a></li>
+      <li class="active"><a href="#" th:href="@{/user/topics}">Topics</a></li>
 	  <li><form th:action="@{/logout}" method="post">
             <input type="submit" value="Sign Out"/>
-        </form></li>
+        </form>  </li>
       
     </ul>
   </div>
 </nav>
 
 <!--srodek strony -->
-    <div class="jumbotron text-center">
-<form action="#" method="post" th:action="@{/register}" th:object="${user}">
 
-        <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">first name errors</p>
-		<input th:field="*{firstName}" placeholder="First Name" /><br />
-		 <br />
-        <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last name errors</p>
-		<input th:field="*{lastName}" placeholder="Last Name" /><br />
-		 <br />
-	 <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email errors</p>
-		<input th:field="*{email}" type="email" placeholder="Email" />
-		<br />	
-		 <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password errors</p>
-		<input th:field="*{password}" type="password" placeholder="Password" /><br />
-	
-		<input type="submit" value="Register" />
-	</form>
+  <div class="jumbotron text-center">
+
+  <div th:if="not ${topic.isEmpty()}">
+  <table border="1" align="center">
+  <tr>
+  <th>nazwa tematu</th></tr>
+  
+   	<tr th:each="topi : ${topic}">
+   	<td><a  th:href="${'/user/topics/' + topi.title}" th:text="${topi.title}"><span>Temat</span></a>
+    </td>
+    </tr>
+    </table>
+    </div>
+     <div th:if="${topic.isEmpty()}">
+        <h1>There is no data yet :(</h1>
+    </div>
+    <br />
+     <a href="#" th:href="@{/user/topics/createtopic}">create Topic</a>
+
 </div>
 
 
    <!-- stopka--> <footer class="asd text-center hidden-xs" th:fragment="footer"> Autor: Patryk Brzuchacz &#9400;</footer>
-   
-   
+
+
+
+
+
+
 </body>
 </html>

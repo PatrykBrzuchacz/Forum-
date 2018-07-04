@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- plugins -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   <link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}"/>
+<title>Registration Success</title>
+</head>
+<body>
+<!-- nagłówek -->
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="">Strona główna</a>
+    </div>
+ <ul class="nav navbar-nav">
+      <li><a href="#" th:href="@{/}">Home</a></li>
+      <li><a href="#" th:href="@{/register}">Register page</a> </li>
+      <li class="active"><a href="#" th:href="@{/admin}">Admin page</a> </li>
+      <li><a href="#" th:href="@{/user}">User page</a></li>
+      <li><a href="#" th:href="@{/about}">About</a></li>
+      <li><a href="#" th:href="@{/user/topics}">Topics</a></li>
+	  <li><form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form></li>
+      
+    </ul>
+  </div>
+</nav>
+
+<!--srodek strony -->
+    <div class="jumbotron text-center">
+   <div th:if="not ${uzytkownicy.isEmpty()}">
+        <h1>All registered times:</h1>
+        <table border="1">
+        <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th> Mobile</th>
+                <th> Nationality</th>
+                <th> Gender </th>
+                 <th>update></th>
+                <th>delete</th>
+               
+            </tr>
+   	<tr th:each="uzytkownic : ${uzytkownicy}" >
+
+                <td th:text="${uzytkownic.firstName}">John</td>
+                <td th:text="${uzytkownic.lastName}">Kowalski</td>
+                <td th:text="${uzytkownic.email}">usee@interia.pl</td>
+                <td th:if="${uzytkownic.mobileNumber}" th:text="${uzytkownic.mobileNumber}">numer telefonu</td>
+                 <td th:if=" not ${uzytkownic.mobileNumber}" th:text="'brak numeru'">numer telefonu</td>
+                <td th:if="${uzytkownic.nationality}" th:text="${uzytkownic.nationality}">narodosc</td>
+                 <td th:if=" not ${uzytkownic.nationality}" th:text="'brak narodowsoci'">narodosc</td>     
+                <td th:if="${uzytkownic.gender}" th:text="${uzytkownic.gender}">plec</td>
+   <td th:if="not ${uzytkownic.gender}" th:text="'brak podanej plci'">plec</td>
+               <td>    
+    <a th:href="${'/admin/edit/' + uzytkownic.id}" ><span>edit</span></a>
+    </td>
+        <td><a th:href="${'/admin/delete/' + uzytkownic.id}"><span>delete</span></a>
+</td>
+           </tr>
+        </table>
+        </div>
+         <div th:if="${uzytkownicy.isEmpty()}">
+        <h1>There is no data yet :(</h1>
+    </div>
+</div>
+
+
+   <!-- stopka--> <footer class="asd text-center hidden-xs" th:fragment="footer"> Autor: Patryk Brzuchacz &#9400;</footer>
+   
+   
+
+</body>
+</html>
+
+ 

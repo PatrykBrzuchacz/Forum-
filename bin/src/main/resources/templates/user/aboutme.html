@@ -17,7 +17,7 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="">Strona główna</a>
     </div>
-    <ul class="nav navbar-nav">
+  <ul class="nav navbar-nav">
       <li><a href="#" th:href="@{/}">Home</a></li>
       <li><a href="#" th:href="@{/register}">Register page</a> </li>
       <li><a href="#" th:href="@{/admin}">Admin page</a> </li>
@@ -35,20 +35,37 @@
 <!--srodek strony -->
 
   <div class="jumbotron text-center">
- 	 <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
- <p>	<a href="#" th:href="@{'/user/aboutme/' + ${user.id}}">About me</a></p>
-	<p>	<a href="#" th:href="@{'/user/adddetails/' + ${user.id}}">Add details</a> </p>
-		<p>	<a href="#" th:href="@{/user/allusers/}">Show users</a> </p>
-       
+  <input type="hidden" th:field="${user.id}"/>
+        <table border="1" align="center">
+        <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+         		    <th> Mobile</th>
+                <th> Nationality</th>
+                <th> Gender </th>
+            </tr>
+   	<tr>
+
+                <td th:text="${user.firstName}">John</td>
+                <td th:text="${user.lastName}">Kowalski</td>
+                <td th:text="${user.email}">usee@interia.pl</td>
+            <td th:if="${user.mobileNumber}" th:text="${user.mobileNumber}">numer telefonu</td>
+                 <td th:if=" not ${user.mobileNumber}" th:text="'brak numeru telefonu '">numer telefonu</td>
+                <td th:if="${user.nationality}" th:text="${user.nationality}">narodosc</td>
+                 <td th:if=" not ${user.nationality}" th:text="'brak narodowsci'">narodosc</td>     
+                <td th:if="${user.gender}" th:text="${user.gender}">plec</td>
+   <td th:if="not ${user.gender}" th:text="'brak plci'">plec</td>
+  
+
+           </tr>
+        </table>
 </div>
 
 
    <!-- stopka--> <footer class="asd text-center hidden-xs" th:fragment="footer"> Autor: Patryk Brzuchacz &#9400;</footer>
 
-
-
-
-
-
 </body>
+    
+
 </html>
