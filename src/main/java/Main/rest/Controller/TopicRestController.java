@@ -116,11 +116,10 @@ public class TopicRestController {
 				@RequestBody PostForm form,BindingResult result,BindingResult result2, UriComponentsBuilder ucBuilder)
 		{
 			Post post = form.createPost();
-
 			User postAuthor = userService.getUserById(id);
-if(postAuthor==null) {
-	return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-}
+			if(postAuthor==null) {
+				return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+			}
 			post.setAuthor(postAuthor);
 			validator.validatePost(post,result);
 			if(result.hasErrors()) {
